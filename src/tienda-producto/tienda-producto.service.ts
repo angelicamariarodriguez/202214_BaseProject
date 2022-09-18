@@ -52,7 +52,7 @@ export class TiendaProductoService {
         });
         if (!producto)
           throw new BusinessLogicException(
-            'El prodcuto con el id dado no fue encontrado',
+            'El producto con el id dado no fue encontrado',
             BusinessError.NOT_FOUND,
           );
     
