@@ -24,17 +24,22 @@ export class TiendaService {
     }
 
     async create(tienda: TiendaEntity): Promise<TiendaEntity> {
-        return await this.tiendaRepository.save(tienda);
+        if(tienda.ciudad.length> 3)
+            throw new BusinessLogicException("La ciudad debe ser un codigo de tres caracteres, ejemplo: BOG", BusinessError.PRECONDITION_FAILED);
+        else
+            return await this.tiendaRepository.save(tienda);
     }
 
     async update(id: string, tienda: TiendaEntity): Promise<TiendaEntity> {
         const persistedTienda: TiendaEntity = await this.tiendaRepository.findOne({where:{id}});
         if (!persistedTienda)
           throw new BusinessLogicException("La tienda con el id dado no fue encontrada", BusinessError.NOT_FOUND);
+        
+        if(tienda.ciudad.length> 3)
+          throw new BusinessLogicException("La ciudad debe ser un codigo de tres caracteres, ejemplo: BOG", BusinessError.PRECONDITION_FAILED);
        
-        tienda.id = id; 
-       
-        return await this.tiendaRepository.save(tienda);
+        else   
+          return await this.tiendaRepository.save({...persistedTienda, ...tienda});
     }
 
     async delete(id: string) {

@@ -31,11 +31,9 @@ export class ProductoService {
     async update(id: string, producto: ProductoEntity): Promise<ProductoEntity> {
         const persistedProducto: ProductoEntity = await this.productoRepository.findOne({where:{id}});
         if (!persistedProducto)
-          throw new BusinessLogicException("El prodcuto con el id dado no fue encontrado", BusinessError.NOT_FOUND);
-       
-        producto.id = id; 
-       
-        return await this.productoRepository.save(producto);
+          throw new BusinessLogicException("El producto con el id dado no fue encontrado", BusinessError.NOT_FOUND);
+        
+        return await this.productoRepository.save({...persistedProducto, ...producto});
     }
 
     async delete(id: string) {
