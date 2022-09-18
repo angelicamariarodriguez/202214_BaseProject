@@ -3,7 +3,6 @@ import { ProductoEntity } from '../producto/producto.entity';
 import {
     Column,
     Entity,
-    JoinTable,
     ManyToMany,
     PrimaryGeneratedColumn,
   } from 'typeorm';
@@ -17,13 +16,12 @@ import {
     @Column()
     nombre: string;
   
-    @Column()
+    @Column({length:3})
     ciudad: string;
   
     @Column()
     direccion: string;
   
     @ManyToMany(() => ProductoEntity, (producto) => producto.tiendas)
-    @JoinTable()
     productos: ProductoEntity[];
   }
